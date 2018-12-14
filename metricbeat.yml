@@ -3,5 +3,5 @@
    - name: Configurando metricbeat en {{ server }}
      template:
        src: metricbeat.yml.j2
-       dest: /home/bernardo/metricbeatactuator/metricbeat.yml
+       dest: /root/metricbeatactuator/metricbeat.yml
 
