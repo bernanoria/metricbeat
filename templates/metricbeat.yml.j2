@@ -1,0 +1,149 @@
+metricbeat.config.modules:
+
+  # Glob pattern for configuration reloading
+  #path: ${path.config}/conf.d/*.yml
+
+  # Period on which files under path should be checked for chagnes
+  #reload.period: 10s
+
+  # Set to true to enable config reloading
+  #reload.enabled: false
+
+# ============================== Module http =================================
+# Se agrega modulo http para consultar metricas actuator de las apis.
+metricbeat.modules:
+- module: http
+  metricsets: ["json"]
+  period: 10s
+  hosts: ["{{ api_metrics }}"]
+  namespace: "bbva"
+  path: "/actuator/metrics"
+  method: "GET"
+  ssl.certificate_authorities: ["/etc/pki/cabbva.pem"]
+  #body: ""
+  #request.enabled: false
+  #response.enabled: false
+  dedot.enabled: true
+
+- module: http
+  metricsets: ["json"]
+  period: 10s
+  hosts: ["{{ api_env }}"]
+  namespace: "bbva"
+  path: "/actuator/env"
+  method: "GET"
+  ssl.certificate_authorities: ["/etc/pki/cabbva.pem"]
+  #body: ""
+  #request.enabled: false
+  #response.enabled: false
+  dedot.enabled: true
+
+- module: http
+  metricsets: ["json"]
+  period: 10s
+  hosts: ["{{ api_info }}"]
+  namespace: "bbva"
+  path: "/actuator/info"
+  method: "GET"
+  ssl.certificate_authorities: ["/etc/pki/cabbva.pem"]
+  #body: ""
+  #request.enabled: false
+  #response.enabled: false
+  dedot.enabled: true
+
+- module: http
+  metricsets: ["json"]
+  period: 10s
+  hosts: ["{{ api_metrics_2 }}"]
+  namespace: "bbva"
+  path: "/actuator/metrics"
+  method: "GET"
+  ssl.certificate_authorities: ["/etc/pki/cabbva.pem"]
+  #body: ""
+  #request.enabled: false
+  #response.enabled: false
+  dedot.enabled: true
+
+
+- module: http
+  metricsets: ["json"]
+  period: 20s
+  hosts: ["http://luxintegracion.bbva.uru.igrupobbva:8084"]
+  namespace: "bbva"
+  path: "/pdp/v1/health"
+  method: "GET"
+#  ssl.certificate_authorities: ["/etc/pki/cabbva.pem"]
+  #body: ""
+  #request.enabled: false
+  #response.enabled: false
+  dedot.enabled: true
+
+- module: http
+  metricsets: ["json"]
+  period: 20s
+  hosts: ["http://luxintegracion.bbva.uru.igrupobbva:8083"]
+  namespace: "bbva"
+  path: "/pap/v1/health"
+  method: "GET"
+#  ssl.certificate_authorities: ["/etc/pki/cabbva.pem"]
+  #body: ""
+  #request.enabled: false
+  #response.enabled: false
+  dedot.enabled: true
+
+#----------------------------- Logstash output --------------------------------
+#output.logstash:
+  # The Logstash hosts
+#  hosts: ["192.168.240.199:5052"]
+
+  # Optional SSL. By default is off.
+  # List of root certificates for HTTPS server verifications
+  #ssl.certificate_authorities: ["/etc/pki/root/ca.pem"]
+
+  # Certificate for SSL client authentication
+  #ssl.certificate: "/etc/pki/client/cert.pem"
+
+  # Client Certificate Key
+  #ssl.key: "/etc/pki/client/cert.key"
+
+
+#output.file:
+#  path: "/tmp"
+#  filename: metricbeat
+#  rotate_every_kb: 10000
+#  number_of_files: 7
+#  permissions: 0600
+
+output.elasticsearch:
+  # Boolean flag to enable or disable the output module.
+  enabled: true
+
+  # Array of hosts to connect to.
+  # Scheme and port can be left out and will be set to the default (http and 9200)
+  # In case you specify and additional path, the scheme is required: http://localhost:9200/path
+  # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
+  #hosts:  ["${ELASTICSEARCH_URL:localhost}"]
+  hosts: ['{{ elastic_url }}']
+
+#  index: "actuator"
+#  template.name: "actuator"
+#  template.pattern: "-%{+yyyy.MM.dd}"
+
+  # Optional index name. The default is "metricbeat" plus date
+  # and generates [metricbeat-]YYYY.MM.DD keys.
+
+#  index: "apis-actuator-%{+yyyy.MM.dd}"
+#  setup.template.enabled: false
+
+#  index_pattern: -%{+yyyy.MM.dd}
+#  index.pattern: "-%{+yyyy.MM.dd}"
+
+#  setup.template.name: "apis-actuator"
+#  setup.template.pattern: "apis-actuator-*"
+#  setup.dashboards.index: "apis-actuator-*"
+
+#setup.kibana:
+#  host: "192.168.240.199:5601"
+
+#setup.dashboards.enabled: true
+

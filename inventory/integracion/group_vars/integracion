@@ -1,0 +1,5 @@
+api_metrics: 2https://apistest.bbva.uru.igrupobbva:7016
+api_env: 2https://apistest.bbva.uru.igrupobbva:7016
+api_info: 2https://apistest.bbva.uru.igrupobbva:7011
+api_metrics_2: 2https://apistest.bbva.uru.igrupobbva:7014
+elastic_url: 2http://elastictest.bbva.uru.igrupobbva:9200
