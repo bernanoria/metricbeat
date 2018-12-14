@@ -1,4 +1,5 @@
 - hosts: "{{ server }}"
+  become: yes
   tasks:
    - name: Configurando metricbeat en {{ server }}
      template:
