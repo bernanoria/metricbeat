@@ -1,8 +1,12 @@
 - hosts: "{{ server }}"
   become: yes
   tasks:
+   - name: Checkeando existencia de directorio
+     file:
+       path: /root/metricbeatactuator
+       state: directory
    - name: Configurando metricbeat en {{ server }}
      template:
        src: metricbeat.yml.j2
        dest: /root/metricbeatactuator/metricbeat.yml
-
+       backup: yes
